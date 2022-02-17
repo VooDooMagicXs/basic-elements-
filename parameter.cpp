@@ -1,6 +1,6 @@
 #include "parameter.h"
 using namespace std;
-// Реализации конструкторов
+
 Vacancy::Vacancy()
 	: work_name("")
 	, salary(0) {
@@ -20,21 +20,21 @@ Vacancy::Vacancy(Vacancy && p)
 	, job(move(p.job))
 	, salary(move(p.salary)) {
 }
-// Копирующее присваивание
+
 Vacancy & Vacancy::operator = (const Vacancy & rsh) {
 	this->work_name = rsh.work_name;
 	this->job = rsh.job;
 	this->salary = rsh.salary;
 	return *this;
 }
-// Перемещающее присваивание
+
 Vacancy & Vacancy::operator = (Vacancy && rsh) {
 	this->work_name = move(rsh.work_name);
 	this->job = move(rsh.job);
 	this->salary = move(rsh.salary);
 	return *this;
 }
-// Реализация геттеров и сеттеры
+
 
 int Vacancy::get_job() const {
 	return static_cast<int>(job);
@@ -58,7 +58,7 @@ void Vacancy::set_work_name(const string & work_name) {
 void Vacancy::set_work_name(string && work_name) {
 	this->work_name = move(work_name);
 }
-// Экранирование строки
+
 static string json_string(const string & s) {
 	string json_s;
 	json_s.append("\"");
@@ -89,14 +89,14 @@ static string json_string(const string & s) {
 	json_s.append("\"");
 	return json_s;
 }
-//массив для вывода типа работы в формате string 
+
 string types[4] = { "unknown", "full", "partial", "watch" };
-// Дружественная функция имеет доступ непосредственно к полям
+
 std::ostream & operator << (ostream & out, const Vacancy & p) {
 	return out << "{ \"work_name\": " << json_string(p.work_name)
 		<< ", \"salary\": " << p.salary<<" \"job_type\": "<< types[static_cast<int>(p.job)]<< " }";
 }
-// Функция сравнения
+
 int Vacancy::compare(const Vacancy & to) const {
 	int cmp;
 	cmp = work_name.compare(to.work_name);
@@ -106,7 +106,7 @@ int Vacancy::compare(const Vacancy & to) const {
 	cmp = salary - to.salary;
 	return cmp;
 }
-// Операторы сравнения
+
 bool Vacancy::operator < (const Vacancy & rsh) const {
 	return compare(rsh) < 0;
 }
@@ -125,7 +125,7 @@ bool Vacancy::operator == (const Vacancy & rsh) const {
 bool Vacancy::operator != (const Vacancy & rsh) const {
 	return compare(rsh) != 0;
 }
-// Деструктор
+
 Vacancy::~Vacancy() {
 }
 
